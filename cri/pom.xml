@@ -28,4 +28,33 @@
     <artifactId>cri</artifactId>
     <name>Critical Repository Interaction</name>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dataconservancy.pass</groupId>
+            <artifactId>pass-model</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dataconservancy.pass</groupId>
+            <artifactId>pass-client-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dataconservancy.pass</groupId>
+            <artifactId>pass-data-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>
