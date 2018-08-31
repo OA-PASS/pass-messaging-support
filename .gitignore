@@ -1,0 +1,11 @@
+.idea
+*.iws
+*.ipr
+*.iml
+.DS_Store
+.project
+.classpath
+.settings/
+target/
+
+nihms-native-assembler/MetadataSerializerTest.xml
