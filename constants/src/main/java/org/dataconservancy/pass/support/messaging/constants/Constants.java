@@ -94,6 +94,8 @@ public final class Constants {
 
         public static final String SUBMISSION_RESOURCE = "http://oapass.org/ns/pass#Submission";
 
+        public static final String SUBMISSION_EVENT_RESOURCE = "http://oapass.org/ns/pass#SubmissionEvent";
+
         public static final String DEPOSIT_RESOURCE = "http://oapass.org/ns/pass#Deposit";
 
     }
