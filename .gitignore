@@ -9,3 +9,6 @@
 target/
 
 nihms-native-assembler/MetadataSerializerTest.xml
+
+*.releaseBackup
+release.properties
