@@ -40,7 +40,7 @@ import java.util.function.Predicate;
  * Clients of this interface must understand that while the boilerplate for interacting with the repository is provided
  * by an implementation, there are no atomicity or transactional guarantees provided.
  * </p>
- * <h4>Example usage</h4>
+ * <strong>Example usage</strong>
  * The following example demonstrates how the critical path of building the {@code DepositSubmission} model is insulated
  * from other threads that may be wanting to modify the same {@code Submission}.
  *   <ol>
@@ -62,20 +62,20 @@ import java.util.function.Predicate;
  *         condition is executed to determine the overall success or failure of the {@code CriticalInteraction}</li>
  *   </ol>
  * <pre>
- * CriticalResult<DepositSubmission, Submission> result =
+ * CriticalResult&lt;DepositSubmission, Submission&gt; result =
  *  critical.performCritical(submission.getId(), Submission.class,
  *      // pre-condition which is supplied the resource retrieved from submission.getId()
- *      (submission) -> {
+ *      (submission) -&gt; {
  *          return submissionPolicy.accept(submission);
  *      },
  *      // post-condition which is supplied the resource resulting from updating the repository with the modified
  *      // resource resulting from the critical path; that is to say, critical path executes, a round trip to the
  *      // repository occurs, and the result of the round trip is supplied to the post-condition
- *      (submission) -> {
+ *      (submission) -&gt; {
  *          return submission.getAggregatedDepositStatus() == IN_PROGRESS;
  *      }
  *      // critical path
- *      (submission) -> {
+ *      (submission) -&gt; {
  *          DepositSubmission ds = null;
  *          try {
  *              ds = fcrepoModelBuilder.build(submission.getId().toString());
