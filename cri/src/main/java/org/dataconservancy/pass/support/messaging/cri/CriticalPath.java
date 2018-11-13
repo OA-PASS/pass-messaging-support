@@ -52,7 +52,7 @@ public class CriticalPath implements CriticalRepositoryInteraction {
 
     /**
      * {@inheritDoc}
-     * <h4>Implementation notes</h4>
+     * <strong>Implementation notes</strong>
      * Executes in order:
      * <ol>
      *     <li>Obtain a lock over the interned, string form of the {@code uri}, insuring no interference from other
@@ -89,7 +89,7 @@ public class CriticalPath implements CriticalRepositoryInteraction {
 
     /**
      * {@inheritDoc}
-     * <h4>Implementation notes</h4>
+     * <strong>Implementation notes</strong>
      * Executes in order:
      * <ol>
      *     <li>Obtain a lock over the interned, string form of the {@code uri}, insuring no interference from other

@@ -46,7 +46,7 @@ public class DefaultConflictHandler implements ConflictHandler {
 
     /**
      * {@inheritDoc}
-     * <h4>Implementation notes</h4>
+     * <strong>Implementation notes</strong>
      * Resolves {@code 412 Precondition Failed} responses by re-retrieving the latest state of the resource from the
      * repository, insuring the pre-condition for applying the update still holds, and then applying the update.
      *
