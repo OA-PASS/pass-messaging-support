@@ -23,6 +23,7 @@
     <packaging>pom</packaging>
     <name>Repository and messaging support</name>
     <description>Utilities and classes for interacting with JMS messages and repository resources</description>
+    <url>https://github.com/OA-PASS/messaging-support</url>
 
     <licenses>
         <license>
