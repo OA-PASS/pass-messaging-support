@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.dataconservancy.pass.support.messaging</groupId>
         <artifactId>messaging-support</artifactId>
-        <version>0.1.1-3.2</version>
+        <version>0.1.2-3.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>constants</artifactId>
