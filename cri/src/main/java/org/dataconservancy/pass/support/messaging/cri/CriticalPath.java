@@ -33,6 +33,15 @@ import java.util.function.Predicate;
 /**
  * Provides the guarantees set by {@link CriticalRepositoryInteraction}, and boilerplate for interacting with, and
  * modifying the state of, repository resources.
+ * <p>
+ * Note that if any of the {@link #performCritical(URI, Class, Predicate, Predicate, Function) critical}
+ * {@link #performCritical(URI, Class, Predicate, BiPredicate, Function) methods} complete without throwing an
+ * {@code Exception}, this implementation will perform an update of the resource in the repository, <em>even if the
+ * critical method does not change the state of the resource</em>.  Update requests (e.g. implemented as {@code
+ * PATCH} HTTP requests) that do not change the state of the resource are idempotent.  <em>However</em>, each update
+ * request will result in Fedora issuing a JMS message indicating that the resource has been modified, even though the
+ * state of the resource has not changed.
+ * </p>
  *
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
@@ -52,7 +61,7 @@ public class CriticalPath implements CriticalRepositoryInteraction {
 
     /**
      * {@inheritDoc}
-     * <strong>Implementation notes</strong>
+     * <h3>Implementation notes</h3>
      * Executes in order:
      * <ol>
      *     <li>Obtain a lock over the interned, string form of the {@code uri}, insuring no interference from other
@@ -68,6 +77,15 @@ public class CriticalPath implements CriticalRepositoryInteraction {
      *         the interaction is short-circuited, and a {@code CriticalResult} returned.</li>
      *     <li>Apply the post-condition {@code Predicate} and returns {@code CriticalResult}</li>
      * </ol>
+     * <h3>Exception handling</h3>
+     * <p>
+     * All code that executes within this method is executed within {@code try/catch} blocks.  Each lambda passed to
+     * this method executes within a {@code try/catch}, and all supporting code within this method executes within
+     * {@code try/catch} blocks.  If an {@code Exception} is thrown, it will be caught, placed in the {@code
+     * CriticalResult}, and this method immediately returns. The caller is responsible for evaluating the {@code
+     * CriticalResult} and determining success or failure of this method.
+     * </p>
+     *
      * @param uri the uri of the {@code PassEntity} which is the subject of the {@code critical} pathv
      * @param clazz the concrete {@code Class} of the {@code PassEntity} represented by {@code uri}
      * @param precondition precondition that must evaluate to {@code true} for the {@code critical} path to execute
@@ -89,7 +107,7 @@ public class CriticalPath implements CriticalRepositoryInteraction {
 
     /**
      * {@inheritDoc}
-     * <strong>Implementation notes</strong>
+     * <h3>Implementation notes</h3>
      * Executes in order:
      * <ol>
      *     <li>Obtain a lock over the interned, string form of the {@code uri}, insuring no interference from other
@@ -105,6 +123,15 @@ public class CriticalPath implements CriticalRepositoryInteraction {
      *         the interaction is short-circuited, and a {@code CriticalResult} returned.</li>
      *     <li>Apply the post-condition {@code BiPredicate} and returns {@code CriticalResult}</li>
      * </ol>
+     * <h3>Exception handling</h3>
+     * <p>
+     * All code that executes within this method is executed within {@code try/catch} blocks.  Each lambda passed to
+     * this method executes within a {@code try/catch}, and all supporting code within this method executes within
+     * {@code try/catch} blocks.  If an {@code Exception} is thrown, it will be caught, placed in the {@code
+     * CriticalResult}, and this method immediately returns. The caller is responsible for evaluating the {@code
+     * CriticalResult} and determining success or failure of this method.
+     * </p>
+     *
      * @param uri the uri of the {@code PassEntity} which is the subject of the {@code critical} pathv
      * @param clazz the concrete {@code Class} of the {@code PassEntity} represented by {@code uri}
      * @param precondition precondition that must evaluate to {@code true} for the {@code critical} path to execute
