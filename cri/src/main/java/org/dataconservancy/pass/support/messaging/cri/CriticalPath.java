@@ -34,13 +34,14 @@ import java.util.function.Predicate;
  * Provides the guarantees set by {@link CriticalRepositoryInteraction}, and boilerplate for interacting with, and
  * modifying the state of, repository resources.
  * <p>
- * Note that if any of the {@link #performCritical(URI, Class, Predicate, Predicate, Function) critical}
- * {@link #performCritical(URI, Class, Predicate, BiPredicate, Function) methods} complete without throwing an
- * {@code Exception}, this implementation will perform an update of the resource in the repository, <em>even if the
- * critical method does not change the state of the resource</em>.  Update requests (e.g. implemented as {@code
- * PATCH} HTTP requests) that do not change the state of the resource are idempotent.  <em>However</em>, each update
- * request will result in Fedora issuing a JMS message indicating that the resource has been modified, even though the
- * state of the resource has not changed.
+ * Note that the {@link #performCritical(URI, Class, Predicate, Predicate, Function) critical}
+ * {@link #performCritical(URI, Class, Predicate, BiPredicate, Function) methods} may modify the state of a resource.
+ * If the the critical method modifies resource state (tested according to {@link PassEntity#hashCode()}), the resource
+ * will be persisted in the repository.  Likewise, if the critical method does <em>not</em> modify resource state, it
+ * will <em>not</em> attempt to persist the resource (since there are no changes to persist).  Even though update
+ * requests (e.g. implemented as {@code PATCH} HTTP requests) that do not change the state of the resource are
+ * idempotent, Fedora issues a JMS message indicating that the resource has been modified.  This happens despite the
+ * "business" state of the resource having not been changed.
  * </p>
  *
  * @author Elliot Metsger (emetsger@jhu.edu)
@@ -72,9 +73,11 @@ public class CriticalPath implements CriticalRepositoryInteraction {
      *         {@code CriticalResult} if the condition fails</li>
      *     <li>Perform the {@code critical} interaction, short-circuiting the interaction by returning a
      *         {@code CriticalResult} if an {@code Exception} is thrown</li>
-     *     <li>Update the resource, and re-read it from the repository.  If a {@code ConflictUpdateException} is thrown,
-     *         it is supplied to the {@link ConflictHandler} for resolution.  If any other {@code Exception} is thrown,
-     *         the interaction is short-circuited, and a {@code CriticalResult} returned.</li>
+     *     <li>If the {@code critical} interaction modifies the resource, update the resource in the repository.  Read
+     *         the resource from the repository (even if no update is performed).  If a {@code ConflictUpdateException}
+     *         is thrown during the update, it is supplied to the {@link ConflictHandler} for resolution.  If any other
+     *         {@code Exception} is thrown, the interaction is short-circuited, and a {@code CriticalResult}
+     *         returned.</li>
      *     <li>Apply the post-condition {@code Predicate} and returns {@code CriticalResult}</li>
      * </ol>
      * <h3>Exception handling</h3>
@@ -118,9 +121,11 @@ public class CriticalPath implements CriticalRepositoryInteraction {
      *         {@code CriticalResult} if the condition fails</li>
      *     <li>Perform the {@code critical} interaction, short-circuiting the interaction by returning a
      *         {@code CriticalResult} if an {@code Exception} is thrown</li>
-     *     <li>Update the resource, and re-read it from the repository.  If a {@code ConflictUpdateException} is thrown,
-     *         it is supplied to the {@link ConflictHandler} for resolution.  If any other {@code Exception} is thrown,
-     *         the interaction is short-circuited, and a {@code CriticalResult} returned.</li>
+     *     <li>If the {@code critical} interaction modifies the resource, update the resource in the repository.  Read
+     *         the resource from the repository (even if no update is performed).  If a {@code ConflictUpdateException}
+     *         is thrown during the update, it is supplied to the {@link ConflictHandler} for resolution.  If any other
+     *         {@code Exception} is thrown, the interaction is short-circuited, and a {@code CriticalResult}
+     *         returned.</li>
      *     <li>Apply the post-condition {@code BiPredicate} and returns {@code CriticalResult}</li>
      * </ol>
      * <h3>Exception handling</h3>
@@ -180,8 +185,11 @@ public class CriticalPath implements CriticalRepositoryInteraction {
             // 4.  Apply the critical update to the resource.
 
             R updateResult = null;
+            boolean updated = false;  // records whether the critical Function alters the state of the resource
             try {
+                int before = resource.hashCode();
                 updateResult = critical.apply(resource);
+                updated = before != resource.hashCode();
             } catch (Exception e) {
                 return new CriticalResult<>(updateResult, resource,false, e);
             }
@@ -191,7 +199,14 @@ public class CriticalPath implements CriticalRepositoryInteraction {
             // TODO: update this class to allow the ConflictHandler to be pluggable
 
             try {
-                resource = passClient.updateAndReadResource(resource, (Class<T>)resource.getClass());
+                // Avoid updating the resource if it has not been changed by the critical Function.  Updates that don't
+                // modify resource state are idempotent, but Fedora will emit a JMS message for the update, even if no
+                // state has changed (merely touch(1)-ing the resource will result in the emission of a JMS message).
+                if (updated) {
+                    resource = passClient.updateAndReadResource(resource, (Class<T>)resource.getClass());
+                } else {
+                    resource = passClient.readResource(resource.getId(), (Class<T>) resource.getClass());
+                }
             } catch (UpdateConflictException e) {
                 try {
                     // If the ConflictHandler is successful, the resource with its updated state is returned
