@@ -62,7 +62,7 @@ public class DefaultConflictHandler implements ConflictHandler {
     public <T extends PassEntity, R> R handleConflict(T conflictedResource, Class<T> resourceClass, Predicate<T>
             preCondition, Function<T, R> criticalUpdate) {
 
-        LOG.debug(">>>> Retrying update for {}, version {}",
+        LOG.trace("Retrying update for {}, version {}",
                 conflictedResource.getId(), conflictedResource.getVersionTag());
 
         T toUpdate = null;
@@ -72,7 +72,7 @@ public class DefaultConflictHandler implements ConflictHandler {
             String msg = String.format("Update retry failed for %s (version %s): Unable to successfully re-read the " +
                             "latest version of the resource when retrying: %s", conflictedResource.getId(),
                     conflictedResource.getVersionTag(), e.getMessage());
-            LOG.info(msg, e);
+            LOG.debug(msg, e);
         }
 
         try {
@@ -88,7 +88,7 @@ public class DefaultConflictHandler implements ConflictHandler {
         } catch (Exception e) {
             String msg = String.format("Update retry failed for %s (version %s to %s)",
                     conflictedResource.getId(), conflictedResource.getVersionTag(), toUpdate.getVersionTag());
-            LOG.info(msg, e);
+            LOG.debug(msg, e);
         }
 
         return null;
