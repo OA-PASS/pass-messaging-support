@@ -141,6 +141,7 @@
         <pass-client.version>0.6.0</pass-client.version>
         <fast-classpath-scanner.version>3.1.5</fast-classpath-scanner.version>
         <jackson.version>2.9.6</jackson.version>
+        <log4j.version>2.15.0</log4j.version>
 
         <docker.fcrepo.version>oapass/fcrepo:4.7.5-3.4</docker.fcrepo.version>
         <docker.indexer.version>oapass/indexer:0.0.18-3.4</docker.indexer.version>
@@ -367,6 +368,18 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
 
             <dependency>
