@@ -18,13 +18,13 @@
 
 package org.dataconservancy.pass.support.messaging.cri;
 
-import org.dataconservancy.pass.model.PassEntity;
-
 import java.net.URI;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import org.dataconservancy.pass.model.PassEntity;
 
 /**
  * Insures that a series of interactions with the repository for a given {@code PassEntity} are not interleaved within
@@ -132,7 +132,8 @@ public interface CriticalRepositoryInteraction {
      * @return a {@code CriticalResult} recording the success or failure of the interaction, and any results.
      */
     <R, T extends PassEntity> CriticalResult<R, T> performCritical(
-            URI uri, Class<T> clazz, Predicate<T> precondition, BiPredicate<T, R> postcondition, Function<T, R> critical);
+            URI uri, Class<T> clazz, Predicate<T> precondition, BiPredicate<T, R> postcondition, Function<T, R> critical
+    );
 
     /**
      * Encapsulates the result of a critical interaction with the repository.

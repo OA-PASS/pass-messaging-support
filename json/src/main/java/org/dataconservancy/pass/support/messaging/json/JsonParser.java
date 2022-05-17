@@ -18,19 +18,19 @@
 
 package org.dataconservancy.pass.support.messaging.json;
 
+import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.ETAG;
+import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.JSON_AT_ID;
+import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.JSON_ID;
+import static org.dataconservancy.pass.support.messaging.constants.Constants.LdpRel.LDP_CONTAINS;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dataconservancy.pass.support.messaging.constants.Constants.LdpRel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.ETAG;
-import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.JSON_AT_ID;
-import static org.dataconservancy.pass.support.messaging.constants.Constants.Json.JSON_ID;
-import static org.dataconservancy.pass.support.messaging.constants.Constants.LdpRel.LDP_CONTAINS;
 
 /**
  * Parses values of well-known keys from the JSON that may be received from the Fedora repository.
@@ -86,8 +86,9 @@ public class JsonParser {
         }
         JsonNode contains = node.findValue(LDP_CONTAINS);
         if (contains == null) {
-            throw new RuntimeException("JSON is missing '" + LDP_CONTAINS + "': unable to resolve repository URIs from " +
-                    "the following JSON:\n" + new String(json));
+            throw new RuntimeException("JSON is missing '" + LDP_CONTAINS +
+                                       "': unable to resolve repository URIs from " +
+                                       "the following JSON:\n" + new String(json));
         }
         ArrayList<String> repoUris = new ArrayList<>();
         contains.iterator().forEachRemaining(n -> repoUris.add(n.findValue(JSON_AT_ID).asText()));

@@ -18,17 +18,17 @@
 
 package org.dataconservancy.pass.support.messaging.cri;
 
+import java.net.URI;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import org.dataconservancy.pass.client.PassClient;
 import org.dataconservancy.pass.client.fedora.UpdateConflictException;
 import org.dataconservancy.pass.model.PassEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * Provides the guarantees set by {@link CriticalRepositoryInteraction}, and boilerplate for interacting with, and
@@ -196,7 +196,7 @@ public class CriticalPath implements CriticalRepositoryInteraction {
 
             // 5. Attempt to update the resource, knowing that another process may have modified the state of the
             //    resource in the interim.  Any conflicts are handled by the ConflictHandler
-            // TODO: update this class to allow the ConflictHandler to be pluggable
+            // todo: update this class to allow the ConflictHandler to be pluggable
 
             try {
                 // Avoid updating the resource if it has not been changed by the critical Function.  Updates that don't

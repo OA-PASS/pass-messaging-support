@@ -18,10 +18,10 @@
 
 package org.dataconservancy.pass.support.messaging.cri;
 
-import org.dataconservancy.pass.model.PassEntity;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import org.dataconservancy.pass.model.PassEntity;
 
 /**
  * {@code ConflictHandler} is invoked when a {@code 409 Conflict} or {@code 412 Precondition Failed} is returned in
