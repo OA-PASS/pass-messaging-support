@@ -18,14 +18,14 @@
 
 package org.dataconservancy.pass.support.messaging.cri;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 import org.dataconservancy.pass.client.PassClient;
 import org.dataconservancy.pass.model.PassEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * Resolves {@code 412 Precondition Failed} responses by re-retrieving the latest state of the resource from the
