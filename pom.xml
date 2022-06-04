@@ -26,7 +26,7 @@
 
     <groupId>org.dataconservancy.pass.support.messaging</groupId>
     <artifactId>messaging-support</artifactId>
-    <version>0.1.3-3.4-SNAPSHOT</version>
+    <version>0.1.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Repository and messaging support</name>
     <description>Utilities and classes for interacting with JMS messages and repository resources</description>
