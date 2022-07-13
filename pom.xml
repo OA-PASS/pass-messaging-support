@@ -30,7 +30,7 @@
 
    <name>Repository and messaging support</name>
    <description>Utilities and classes for interacting with JMS messages and repository resources</description>
-   <url>https://github.com/OA-PASS/messaging-support</url>
+   <url>https://github.com/eclipse-pass/pass-messaging-support</url>
    <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -54,9 +54,9 @@
     </modules>
 
    <scm>
-        <connection>scm:git:https://github.com/OA-PASS/messaging-support.git</connection>
-        <developerConnection>scm:git:https://github.com/OA-PASS/messaging-support.git</developerConnection>
-        <url>https://github.com/OA-PASS/messaging-support</url>
+        <connection>scm:git:https://github.com/eclipse-pass/pass-messaging-support.git</connection>
+        <developerConnection>scm:git:https://github.com/eclipse-pass/pass-messaging-support.git</developerConnection>
+        <url>https://github.com/eclipse-pass/pass-messaging-support</url>
         <tag>HEAD</tag>
     </scm>
 
