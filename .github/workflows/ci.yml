@@ -29,4 +29,4 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: "Run unit & integration tests"
-        run: mvn -V -ntp verify --file pom.xml
+        run: mvn -U -V -ntp verify --file pom.xml
