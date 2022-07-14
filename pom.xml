@@ -14,32 +14,31 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
 
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
+   <parent>
         <groupId>org.eclipse.pass</groupId>
         <artifactId>eclipse-pass-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.eclipse.pass.support.messaging</groupId>
-    <artifactId>messaging-support</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Repository and messaging support</name>
-    <description>Utilities and classes for interacting with JMS messages and repository resources</description>
-    <url>https://github.com/OA-PASS/messaging-support</url>
+   <groupId>org.eclipse.pass.support.messaging</groupId>
+   <artifactId>messaging-support</artifactId>
+   <version>0.1.0-SNAPSHOT</version>
+   <packaging>pom</packaging>
 
-    <licenses>
+   <name>Repository and messaging support</name>
+   <description>Utilities and classes for interacting with JMS messages and repository resources</description>
+   <url>https://github.com/eclipse-pass/pass-messaging-support</url>
+   <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
-    <developers>
+   <developers>
         <developer>
             <name>Elliot Metsger</name>
             <email>emetsger@jhu.edu</email>
@@ -48,54 +47,28 @@
         </developer>
     </developers>
 
-    <modules>
+   <modules>
         <module>cri</module>
         <module>constants</module>
         <module>json</module>
     </modules>
 
-    <profiles>
+   <scm>
+        <connection>scm:git:https://github.com/eclipse-pass/pass-messaging-support.git</connection>
+        <developerConnection>scm:git:https://github.com/eclipse-pass/pass-messaging-support.git</developerConnection>
+        <url>https://github.com/eclipse-pass/pass-messaging-support</url>
+        <tag>HEAD</tag>
+    </scm>
 
-        <profile>
-            <id>external</id>
-            <activation>
-                <property>
-                    <name>external</name>
-                </property>
-            </activation>
-            <properties>
-                <scp.port>122</scp.port>
-            </properties>
-        </profile>
-
-    </profiles>
-
-    <properties>
+   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <scp.port>22</scp.port>
 
-        <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
-        <!-- see:
-            - https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-1.4-Release-Notes#integration-tests-with-the-maven-failsafe-plugin
-            - https://issues.apache.org/jira/browse/SUREFIRE-1198
-        -->
-        <maven.failsafe.plugin.version>2.18.1</maven.failsafe.plugin.version>
-        <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-        <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
-        <maven.shade.plugin.version>2.4.3</maven.shade.plugin.version>
-        <maven.remote-resources.plugin.version>1.5</maven.remote-resources.plugin.version>
-        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
-        <codehaus.build-helper.plugin.version>1.10</codehaus.build-helper.plugin.version>
-        <fabric8.docker.maven.plugin.version>0.30.0</fabric8.docker.maven.plugin.version>
-        <git-commit-plugin.version>2.2.4</git-commit-plugin.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <junit.version>4.12</junit.version>
         <spring-framework.version>5.1.4.RELEASE</spring-framework.version>
-        <spring-boot.version>2.1.2.RELEASE</spring-boot.version>
         <commons-net.version>3.6</commons-net.version>
         <commons-compress.version>1.15</commons-compress.version>
         <commons-io.version>2.6</commons-io.version>
@@ -109,7 +82,6 @@
         <sword2-client.version>0.9.3</sword2-client.version>
         <mets-api.version>1.3</mets-api.version>
         <tika.version>1.17</tika.version>
-        <pass-client.version>0.9.0-SNAPSHOT</pass-client.version>
         <fast-classpath-scanner.version>3.1.5</fast-classpath-scanner.version>
         <jackson.version>2.9.6</jackson.version>
 
@@ -126,158 +98,7 @@
 
     </properties>
 
-    <build>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-
-        <pluginManagement>
-
-            <plugins>
-
-                <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <compilerArgument>-Xlint:all</compilerArgument>
-                        <showWarnings>true</showWarnings>
-                        <showDeprecation>true</showDeprecation>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven.surefire.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${maven.failsafe.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${codehaus.build-helper.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>${maven.jar.plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>test-jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven.shade.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>io.fabric8</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${fabric8.docker.maven.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven.resources.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-remote-resources-plugin</artifactId>
-                    <version>${maven.remote-resources.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>${maven-gpg-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <useAgent>true</useAgent>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-            </plugins>
-
-        </pluginManagement>
-
-    </build>
-
-    <dependencyManagement>
+   <dependencyManagement>
 
         <dependencies>
 
@@ -368,7 +189,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-boot-maven-plugin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -376,13 +197,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-boot-maven-plugin.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-quartz</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-boot-maven-plugin.version}</version>
             </dependency>
 
             <dependency>
@@ -488,25 +309,25 @@
             <dependency>
                 <groupId>org.eclipse.pass</groupId>
                 <artifactId>pass-model</artifactId>
-                <version>${pass-client.version}</version>
+                <version>${pass-java-client.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.eclipse.pass</groupId>
                 <artifactId>pass-data-client</artifactId>
-                <version>${pass-client.version}</version>
+                <version>${pass-java-client.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.eclipse.pass</groupId>
                 <artifactId>pass-json-adapter</artifactId>
-                <version>${pass-client.version}</version>
+                <version>${pass-java-client.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.eclipse.pass</groupId>
                 <artifactId>pass-client-api</artifactId>
-                <version>${pass-client.version}</version>
+                <version>${pass-java-client.version}</version>
             </dependency>
 
             <dependency>
@@ -537,14 +358,7 @@
 
     </dependencyManagement>
 
-    <scm>
-        <connection>scm:git:https://github.com/OA-PASS/messaging-support.git</connection>
-        <developerConnection>scm:git:https://github.com/OA-PASS/messaging-support.git</developerConnection>
-        <url>https://github.com/OA-PASS/messaging-support</url>
-        <tag>HEAD</tag>
-    </scm>
-
-  <repositories>
+   <repositories>
     <repository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
@@ -554,4 +368,165 @@
       </snapshots>
     </repository>
   </repositories>
+
+   <build>
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <version>${git-commit-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <compilerArgument>-Xlint:all</compilerArgument>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <version>${maven-remote-resources-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot-maven-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <useAgent>true</useAgent>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+   <profiles>
+
+        <profile>
+            <id>external</id>
+            <activation>
+                <property>
+                    <name>external</name>
+                </property>
+            </activation>
+            <properties>
+                <scp.port>122</scp.port>
+            </properties>
+        </profile>
+
+    </profiles>
 </project>
